@@ -1,14 +1,35 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import 'dotenv/config'
 
-import App from './App.vue'
-import router from './router'
+import express, { ErrorRequestHandler } from 'express'
 
-import './assets/styles/global.css'
+import bindApi from './api.ts'
+import bindFrontend from '#frontend'
+import { HttpException } from './shared/exceptions/HttpException.ts'
 
-const app = createApp(App)
+const port = process.env.PORT ?? 3000
+const base = process.env.BASE_URL ?? '/'
+const ssr = process.env.DISABLE_SSR !== 'true'
 
-app.use(createPinia())
-app.use(router)
+const app = express()
+await bindApi(app)
+await bindFrontend(app, { base, ssr })
 
-app.mount('#app')
+// error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (err instanceof HttpException) {
+    return err.sendResponse(res, req)
+  }
+
+  if (req.headers.accept?.includes('application/json')) {
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+
+  res.status(500).send('Internal Server Error')
+}
+
+app.use(errorHandler)
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
+})

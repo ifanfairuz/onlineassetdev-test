@@ -6,14 +6,18 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "eslint.config.*"
+    "eslint.config.*",
+    "src/*.ts",
+    "src/api/**/*",
+    "src/shared/**/*"
   ],
   "compilerOptions": {
-    "noEmit": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
 
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "customConditions": ["development"],
+    "rewriteRelativeImportExtensions": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "types": ["node"]
   }
 }

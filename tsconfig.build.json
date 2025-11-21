@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.node.json",
+  "include": ["src/*.ts", "src/api/**/*", "src/shared/**/*"],
+  "compilerOptions": {
+    "customConditions": [],
+    "rootDir": "./src"
+  }
+}
