@@ -11,7 +11,6 @@ export default async function bindFrontend(
 ) {
   console.log('Configuring Frontend for development')
 
-  const template = await readFileSync('./index.html', 'utf-8')
   const vite = await createServer({
     server: { middlewareMode: true },
     appType: 'custom',
@@ -24,7 +23,8 @@ export default async function bindFrontend(
     app.use('*all', async (req, res, next) => {
       const url = req.originalUrl.replace(options.base, '')
       try {
-        const index = await vite.transformIndexHtml(url, template)
+        const template = await readFileSync('./index.html', 'utf-8')
+        const index = await vite.transformIndexHtml(url, template, req.originalUrl)
         const rendered = await render(url)
         const html = index
           .replace(`<!--app-head-->`, rendered.head ?? '')
@@ -41,6 +41,7 @@ export default async function bindFrontend(
       }
     })
   } else {
+    const template = await readFileSync('./index.html', 'utf-8')
     app.use('*all', async (req, res) => {
       res.status(200).set({ 'Content-Type': 'text/html' }).send(template)
     })

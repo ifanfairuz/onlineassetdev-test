@@ -12,7 +12,6 @@ export default async function bindFrontend(
   },
 ) {
   const public_path = fileURLToPath(new URL('public', import.meta.url))
-  const template = readFileSync(join(public_path, 'index.html'), 'utf-8')
   const manifest = JSON.parse(readFileSync(join(public_path, '.vite/ssr-manifest.json'), 'utf-8'))
   const include = new Function('specifier', 'return import(specifier)')
   const { render } = await include('./ssr/main.server.js')
@@ -21,6 +20,7 @@ export default async function bindFrontend(
   app.use(express.static(public_path, { extensions: ['js', 'css', 'ico'], index: false }))
   if (options.ssr) {
     app.use('*all', async (req, res) => {
+      const template = readFileSync(join(public_path, 'index.html'), 'utf-8')
       const url = req.originalUrl.replace(options.base, '')
       const rendered = await render(url, manifest)
       const html = template
@@ -31,6 +31,7 @@ export default async function bindFrontend(
     })
   } else {
     app.use('*all', async (req, res) => {
+      const template = readFileSync(join(public_path, 'index.html'), 'utf-8')
       res.status(200).set({ 'Content-Type': 'text/html' }).send(template)
     })
   }

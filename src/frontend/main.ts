@@ -1,4 +1,3 @@
-import './global.css'
 import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
 
