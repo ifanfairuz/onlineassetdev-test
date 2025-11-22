@@ -1,13 +1,12 @@
 import { renderToString, type SSRContext } from 'vue/server-renderer'
 import { createApp } from './main'
-import type { App } from 'vue'
-import type { RouteLocationRaw, Router } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 
 export async function render(url: RouteLocationRaw, manifest?: Record<string, string[]>) {
-  let status = 200
   const { app, router } = createApp()
 
   try {
+    let status = 200
     await router.push(url)
     await router.isReady()
 
@@ -19,26 +18,16 @@ export async function render(url: RouteLocationRaw, manifest?: Record<string, st
     // @vitejs/plugin-vue injects code into a component's setup() that registers
     // itself on ctx.modules. After the render, ctx.modules would contain all the
     const ctx: SSRContext = {}
-    const html = await renderToString(app, ctx)
+    const body = await renderToString(app, ctx)
     const head = manifest ? renderPreloadLinks(ctx.modules, manifest) : ''
 
-    return { html, status, head }
-  } catch {
-    return { html: await renderError(app, router), status: 500, head: '' }
-  }
-}
+    return { body, status, head }
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      throw e
+    }
 
-async function renderError(app: App, router: Router) {
-  try {
-    await router.replace({ name: 'Error' })
-    await router.isReady()
-
-    const ctx: SSRContext = {}
-    const html = await renderToString(app, ctx)
-
-    return { html, status: 500, head: '' }
-  } catch {
-    return { html: 'Internal Server Error', status: 500, head: '' }
+    throw new Error('Internal Server Error')
   }
 }
 

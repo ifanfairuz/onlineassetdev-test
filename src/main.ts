@@ -25,7 +25,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 
-  res.status(500).send('Internal Server Error')
+  res.redirect('/error/500')
 }
 
 app.use(errorHandler)

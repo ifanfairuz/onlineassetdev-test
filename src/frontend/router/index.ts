@@ -6,21 +6,20 @@ const router = () => {
     routes: [
       {
         path: '/',
-        component: () => import('@/pages/HomePage.vue'),
+        component: () => import('@/pages/Home.vue'),
       },
 
-      // NotFound
+      // 500
+      {
+        path: '/error/500',
+        component: () => import('@/pages/Error.vue'),
+      },
+
+      // 404
       {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
-        component: () => import('@/pages/404Page.vue'),
-      },
-
-      // Error
-      {
-        path: '/:pathMatch(.*)*',
-        name: 'Error',
-        component: () => import('@/pages/ErrorPage.vue'),
+        component: () => import('@/pages/404.vue'),
       },
     ],
   })

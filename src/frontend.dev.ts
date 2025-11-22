@@ -1,6 +1,6 @@
 import type { Application } from 'express'
 import { readFileSync } from 'fs'
-import { createServer } from 'vite'
+import { createServer, ViteDevServer } from 'vite'
 
 export default async function bindFrontend(
   app: Application,
@@ -16,21 +16,16 @@ export default async function bindFrontend(
     appType: 'custom',
     base: options.base,
   })
-  const { render } = await vite.ssrLoadModule('./src/frontend/main.server.ts')
 
   app.use(vite.middlewares)
   if (options.ssr) {
     app.use('*all', async (req, res, next) => {
       const url = req.originalUrl.replace(options.base, '')
       try {
-        const template = await readFileSync('./index.html', 'utf-8')
-        const index = await vite.transformIndexHtml(url, template, req.originalUrl)
-        const rendered = await render(url)
-        const html = index
-          .replace(`<!--app-head-->`, rendered.head ?? '')
-          .replace(`<!--app-html-->`, rendered.html ?? '')
+        const { render } = await vite.ssrLoadModule('./src/frontend/main.server.ts')
+        const { status, html } = await renderHtml(vite, url, render)
 
-        res.status(rendered.status).set({ 'Content-Type': 'text/html' }).send(html)
+        res.status(status).set({ 'Content-Type': 'text/html' }).send(html)
       } catch (e: unknown) {
         if (e instanceof Error) {
           vite.ssrFixStacktrace(e)
@@ -41,9 +36,33 @@ export default async function bindFrontend(
       }
     })
   } else {
-    const template = await readFileSync('./index.html', 'utf-8')
     app.use('*all', async (req, res) => {
-      res.status(200).set({ 'Content-Type': 'text/html' }).send(template)
+      const url = req.originalUrl.replace(options.base, '')
+      const { status, html } = await renderHtml(vite, url)
+      res.status(status).set({ 'Content-Type': 'text/html' }).send(html)
     })
   }
+}
+
+async function renderHtml(
+  vite: ViteDevServer,
+  url: string,
+  render?: (url: string) => Promise<{ body: string; head: string; status: number }>,
+) {
+  const template = await readFileSync('./index.html', 'utf-8')
+  const index = await vite.transformIndexHtml(url, template)
+
+  let html = index
+  let status = 200
+  if (render) {
+    const rendered = await render(url)
+    status = rendered.status
+    html = html
+      .replace(`<!--app-head-->`, rendered.head ?? '')
+      .replace(`<!--app-body-->`, rendered.body ?? '')
+  } else {
+    html = html.replace(`<!--app-head-->`, '').replace(`<!--app-html-->`, '')
+  }
+
+  return { html, status }
 }
