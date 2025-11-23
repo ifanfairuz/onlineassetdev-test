@@ -1,0 +1,5 @@
+export { default as Sidebar } from './Sidebar.vue'
+export { default as SidebarItem } from './SidebarItem.vue'
+export { default as SidebarHeading } from './SidebarNavHeading.vue'
+export { default as SidebarProvider } from './SidebarProvider.vue'
+export { useSidebar } from './sidebar-context'

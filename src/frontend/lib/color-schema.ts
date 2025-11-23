@@ -1,5 +1,5 @@
 import { useColorMode, type BasicColorMode } from '@vueuse/core'
-import { computed, inject, onBeforeMount, provide, watch, type ComputedRef } from 'vue'
+import { inject, provide, type ComputedRef } from 'vue'
 
 const KEY = Symbol('color-schema')
 
@@ -9,7 +9,9 @@ interface ColorSchema {
 }
 
 export function setupColorSchema() {
-  const set = (mode: BasicColorMode) => {
+  const onChanged = (mode: BasicColorMode) => {
+    if (typeof window === 'undefined') return
+
     if (mode === 'dark') {
       document.documentElement.classList.add('dark')
     } else {
@@ -17,17 +19,14 @@ export function setupColorSchema() {
     }
   }
 
-  const mode = useColorMode()
-  const schema = computed(() => mode.state.value)
-  watch(mode.state, () => set(mode.state.value))
-  onBeforeMount(() => {
-    if (mode.system.value === 'dark' && mode.store.value === 'auto') {
-      mode.value = 'dark'
-    }
+  const mode = useColorMode({
+    onChanged: onChanged,
+    disableTransition: false,
+    initialValue: 'light',
   })
 
   const data: ColorSchema = {
-    schema: schema,
+    schema: mode.state,
     toggle: (set) => {
       if (set) {
         mode.value = set

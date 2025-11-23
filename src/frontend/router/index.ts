@@ -4,6 +4,7 @@ import {
   createWebHistory,
   type RouteRecordRaw,
 } from 'vue-router'
+import dashboard from './dashboard'
 
 function createHistory() {
   if (typeof window === 'undefined') {
@@ -21,6 +22,13 @@ export default function () {
 }
 
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    component: () => import('@/layouts/Dashboard.vue'),
+    children: dashboard,
+    props: (route) => ({ meta: route.meta }),
+  },
+
   // error page
   {
     path: '/error/:code',

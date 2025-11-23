@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import Button from '@/components/Button.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -28,9 +28,7 @@ const error = computed(() => {
         {{ error.code }}
       </h1>
       <p class="text-lg">{{ error.message }}</p>
-      <Button class="mt-4" as-child>
-        <router-link to="/"> Back to Home </router-link>
-      </Button>
+      <Button class="mt-4" to="/"> Back to Home </Button>
     </div>
   </div>
 </template>
