@@ -7,14 +7,15 @@ import { formatTimestamp } from '@/lib/utils'
 import IconLoading from './icons/IconLoading.vue'
 import TableRow from './table/TableRow.vue'
 import TableCell from './table/TableCell.vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   datas: T[]
   getId: (data: T) => string
   perPage: number
-  rowsCount?: number
-  pagesCount?: number
-  currentPage?: number
+  rowsCount: number
+  pagesCount: number
+  currentPage: number
   loading?: boolean
   lastFetchedAt?: Date | null
 }>()
@@ -27,6 +28,8 @@ const emits = defineEmits<{
 }>()
 
 const perPage = useVModel(props, 'perPage', emits)
+const startRow = computed(() => (props.currentPage - 1) * props.perPage + 1)
+const endRow = computed(() => startRow.value + props.datas.length - 1)
 </script>
 
 <template>
@@ -36,7 +39,7 @@ const perPage = useVModel(props, 'perPage', emits)
       <div class="text-sm text-muted-foreground flex items-center gap-2 [&>svg]:size-4">
         <template v-if="loading && !!lastFetchedAt">
           <IconLoading />
-          <span> Updating data... </span>
+          <span> Loading... </span>
         </template>
         <span v-else-if="lastFetchedAt">
           Last Fetched at {{ formatTimestamp(lastFetchedAt) }}
@@ -83,7 +86,7 @@ const perPage = useVModel(props, 'perPage', emits)
     <!-- pagination -->
     <div class="flex flex-col items-start lg:flex-row lg:items-center lg:justify-between">
       <div class="text-muted-foreground text-sm">
-        {{ datas.length }} of {{ rowsCount ?? datas.length }} row(s) shown.
+        {{ startRow }}-{{ endRow }} of {{ rowsCount }} row(s) shown.
       </div>
       <div class="flex items-center gap-8">
         <div class="flex items-center gap-2">
@@ -118,9 +121,7 @@ const perPage = useVModel(props, 'perPage', emits)
             </Button>
           </li>
 
-          <li class="text-sm/8 font-medium tracking-widest">
-            {{ currentPage ?? 1 }}/{{ pagesCount ?? 1 }}
-          </li>
+          <li class="text-sm/8 font-medium tracking-widest">{{ currentPage }}/{{ pagesCount }}</li>
 
           <li>
             <Button variant="outline" aria-label="Next page" @click="emits('next')">

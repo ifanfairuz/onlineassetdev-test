@@ -1,6 +1,6 @@
-import type { CreateUserPayload, User, UserList } from '../../shared/model/user'
+import type { CreateUserPayload, User, UserListPaginated } from '../../shared/model/user'
 
-export async function getUsers(page = 1, per_page = 10): Promise<UserList> {
+export async function getUsers(page = 1, per_page = 10): Promise<UserListPaginated> {
   const res = await fetch(`/api/users?page=${page}&per_page=${per_page}`, {
     headers: {
       Accept: 'application/json',

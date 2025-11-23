@@ -6,7 +6,7 @@ export interface User {
   updated_at: Date
 }
 
-export type UserList = {
+export type UserListPaginated = {
   data: User[]
   meta: {
     current_page: number

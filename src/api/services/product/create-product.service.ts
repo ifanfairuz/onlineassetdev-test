@@ -1,16 +1,15 @@
 import { CreateProductPayload, Product } from '../../../shared/model/product.ts'
+import { getConnection } from '../../database/connection.ts'
+import { insertProduct } from '../../database/repositories/product.repository.ts'
 
 export async function createProduct({
   name,
   price,
   category,
 }: CreateProductPayload): Promise<Product> {
-  return await {
-    id: 1,
-    name,
-    price,
-    category,
-    created_at: new Date(),
-    updated_at: new Date(),
-  }
+  const db = await getConnection()
+  const product = await insertProduct(db, { name, price, category })
+  await db.release()
+
+  return product
 }

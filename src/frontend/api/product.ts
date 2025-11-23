@@ -1,6 +1,10 @@
-import type { CreateProductPayload, Product, ProductList } from '../../shared/model/product'
+import type {
+  CreateProductPayload,
+  Product,
+  ProductListPaginated,
+} from '../../shared/model/product'
 
-export async function getProducts(page = 1, per_page = 10): Promise<ProductList> {
+export async function getProducts(page = 1, per_page = 10): Promise<ProductListPaginated> {
   const res = await fetch(`/api/products?page=${page}&per_page=${per_page}`, {
     headers: {
       Accept: 'application/json',

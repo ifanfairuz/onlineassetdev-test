@@ -1,12 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { createProduct, getProducts } from '@/api/product'
-import type { CreateProductPayload, ProductList } from '../../shared/model/product'
+import type { CreateProductPayload, ProductListPaginated } from '../../shared/model/product'
 
 export const useProductStore = defineStore('products', () => {
   const loading = ref(false)
   const per_page = ref(10)
-  const state = ref<ProductList>({
+  const state = ref<ProductListPaginated>({
     data: [],
     meta: {
       current_page: 1,

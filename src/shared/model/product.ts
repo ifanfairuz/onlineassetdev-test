@@ -7,7 +7,7 @@ export interface Product {
   updated_at: Date
 }
 
-export type ProductList = {
+export type ProductListPaginated = {
   data: Product[]
   meta: {
     current_page: number

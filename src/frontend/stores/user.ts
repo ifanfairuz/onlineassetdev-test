@@ -1,11 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { createUser, getUsers } from '@/api/user'
-import type { CreateUserPayload, UserList } from '../../shared/model/user'
+import type { CreateUserPayload, UserListPaginated } from '../../shared/model/user'
 
 export const useUserStore = defineStore('users', () => {
   const loading = ref(false)
-  const state = ref<UserList>({
+  const state = ref<UserListPaginated>({
     data: [],
     meta: {
       current_page: 1,
