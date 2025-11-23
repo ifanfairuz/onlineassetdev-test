@@ -1,31 +1,9 @@
-import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
-
-const router = () => {
-  const router = createRouter({
-    history: createHistory(),
-    routes: [
-      {
-        path: '/',
-        component: () => import('@/pages/Home.vue'),
-      },
-
-      // 500
-      {
-        path: '/error/500',
-        component: () => import('@/pages/Error.vue'),
-      },
-
-      // 404
-      {
-        path: '/:pathMatch(.*)*',
-        name: 'NotFound',
-        component: () => import('@/pages/404.vue'),
-      },
-    ],
-  })
-
-  return router
-}
+import {
+  createMemoryHistory,
+  createRouter as _createRouter,
+  createWebHistory,
+  type RouteRecordRaw,
+} from 'vue-router'
 
 function createHistory() {
   if (typeof window === 'undefined') {
@@ -35,4 +13,25 @@ function createHistory() {
   return createWebHistory(import.meta.env.BASE_URL)
 }
 
-export default router
+export default function () {
+  return _createRouter({
+    history: createHistory(),
+    routes: routes,
+  })
+}
+
+const routes: RouteRecordRaw[] = [
+  // error page
+  {
+    path: '/error/:code',
+    name: 'error',
+    component: () => import('@/pages/Error.vue'),
+  },
+
+  // 404
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'error.404',
+    component: () => import('@/pages/404.vue'),
+  },
+]

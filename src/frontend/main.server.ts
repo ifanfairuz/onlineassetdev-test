@@ -10,7 +10,7 @@ export async function render(url: RouteLocationRaw, manifest?: Record<string, st
     await router.push(url)
     await router.isReady()
 
-    if (router.currentRoute.value.name?.toString() === 'NotFound') {
+    if (router.currentRoute.value.name?.toString() === 'error.404') {
       status = 404
     }
 
