@@ -13,12 +13,14 @@ const datas = computed(() => {
     if (items.length == i + 1) {
       // remove url if it's the last item
       result.push({ label: item.label })
-    } else if (items.length > i + 1) {
+    } else {
+      // add item if there is a next item
+      result.push(item)
+    }
+
+    if (items.length > i + 1) {
       // add divider if there is a next item
       result.push({ divider: true, label: i.toString() })
-    } else {
-      // add item
-      result.push(item)
     }
   }
 

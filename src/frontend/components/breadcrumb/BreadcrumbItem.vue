@@ -13,7 +13,7 @@ defineProps<BreadcrumbData>()
   <component
     :is="!!url ? 'router-link' : 'span'"
     :to="url"
-    class="block transition-colors hover:text-foreground"
+    class="block transition-colors [a]:hover:text-foreground"
   >
     {{ label }}
   </component>

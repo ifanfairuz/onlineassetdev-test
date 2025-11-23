@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { readonly, ref } from 'vue'
 import Header from '../Header.vue'
-import { provideSidebarContext } from './sidebar-context'
+import { provideSidebarContext, type SidebarRef } from './sidebar-context'
 import Sidebar from './Sidebar.vue'
 import type { BreadcrumbData } from '../breadcrumb'
 
@@ -31,6 +31,10 @@ provideSidebarContext({
   open,
   close,
   breadcrumbs: breadcrumbs,
+  setBreadcrumbs,
+})
+
+defineExpose<SidebarRef>({
   setBreadcrumbs,
 })
 </script>

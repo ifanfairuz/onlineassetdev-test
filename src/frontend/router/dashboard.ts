@@ -9,6 +9,22 @@ const routes: RouteRecordRaw[] = [
       breadcrumbs: [{ label: 'Dashboard' }],
     },
   },
+  {
+    path: '/users',
+    name: 'dashboard.user.list',
+    component: () => import('@/pages/User.vue'),
+    meta: {
+      breadcrumbs: [{ label: 'Management' }, { label: 'User' }],
+    },
+  },
+  {
+    path: '/products',
+    name: 'dashboard.product.list',
+    component: () => import('@/pages/Product.vue'),
+    meta: {
+      breadcrumbs: [{ label: 'Management' }, { label: 'Product' }],
+    },
+  },
 ]
 
 export default routes

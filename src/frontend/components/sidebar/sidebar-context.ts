@@ -12,6 +12,10 @@ export interface SidebarContext {
   setBreadcrumbs: (items: BreadcrumbData[]) => void
 }
 
+export interface SidebarRef {
+  setBreadcrumbs: (items: BreadcrumbData[]) => void
+}
+
 export function provideSidebarContext(data: SidebarContext) {
   provide(KEY, data)
 }
