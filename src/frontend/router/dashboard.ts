@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/users',
     name: 'dashboard.user.list',
-    component: () => import('@/pages/User.vue'),
+    component: () => import('@/pages/user/UserList.vue'),
     meta: {
       breadcrumbs: [{ label: 'Management' }, { label: 'User' }],
     },
@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/products',
     name: 'dashboard.product.list',
-    component: () => import('@/pages/Product.vue'),
+    component: () => import('@/pages/product/ProductList.vue'),
     meta: {
       breadcrumbs: [{ label: 'Management' }, { label: 'Product' }],
     },

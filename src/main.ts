@@ -15,7 +15,6 @@ await bindApi(app)
 await bindFrontend(app, { base, ssr })
 
 // error handler
-
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof HttpException) {
     return err.sendResponse(res, req)

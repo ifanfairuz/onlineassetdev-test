@@ -7,7 +7,11 @@ defineProps<{
 </script>
 
 <template>
-  <component :is="!!external ? 'a' : 'router-link'" :to="url" class="hover:bg-neutral-200">
+  <component
+    :is="!!external ? 'a' : 'router-link'"
+    :to="url"
+    class="hover:bg-neutral-200 ring-offset-0 first:rounded-t-md last:rounded-b-md"
+  >
     <div class="flex items-center gap-2 p-2">
       <span class="[&>svg]:size-5">
         <slot name="icon" />

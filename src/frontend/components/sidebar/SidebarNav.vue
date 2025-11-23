@@ -12,7 +12,7 @@ defineProps<{ heading?: string }>()
       </SidebarNavHeading>
     </slot>
 
-    <div class="flex flex-col bg-background rounded-md overflow-hidden divide-y">
+    <div class="flex flex-col divide-y-2 *:bg-background">
       <slot />
     </div>
   </div>
