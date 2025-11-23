@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { createUser, getUsers } from '@/api/user'
 import type { CreateUserPayload, UserList } from '../../shared/model/user'
@@ -82,12 +82,6 @@ export const useUserStore = defineStore('users', () => {
       loading.value = false
     }
   }
-
-  onMounted(() => {
-    if (!state.value.meta.fetched_at) {
-      refresh()
-    }
-  })
 
   return { state, loading, next, prev, add, setPerPage, refresh }
 })

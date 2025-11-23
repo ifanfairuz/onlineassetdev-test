@@ -3,7 +3,7 @@ import { Table, TableBody, TableHead } from '@/components/table'
 import { Select } from './select'
 import Button from './Button.vue'
 import { useVModel } from '@vueuse/core'
-import { formatDate } from '@/lib/utils'
+import { formatTimestamp } from '@/lib/utils'
 import IconLoading from './icons/IconLoading.vue'
 import TableRow from './table/TableRow.vue'
 import TableCell from './table/TableCell.vue'
@@ -38,7 +38,9 @@ const perPage = useVModel(props, 'perPage', emits)
           <IconLoading />
           <span> Updating data... </span>
         </template>
-        <span v-else-if="lastFetchedAt"> Last Fetched at {{ formatDate(lastFetchedAt) }} </span>
+        <span v-else-if="lastFetchedAt">
+          Last Fetched at {{ formatTimestamp(lastFetchedAt) }}
+        </span>
       </div>
 
       <Button variant="outline" aria-label="Refresh" :disabled="loading" @click="emits('refresh')">

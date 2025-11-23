@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { createProduct, getProducts } from '@/api/product'
 import type { CreateProductPayload, ProductList } from '../../shared/model/product'
@@ -80,12 +80,6 @@ export const useProductStore = defineStore('products', () => {
       loading.value = false
     }
   }
-
-  onMounted(() => {
-    if (!state.value.meta.fetched_at) {
-      refresh()
-    }
-  })
 
   return { state, loading, next, prev, add, setPerPage, refresh }
 })

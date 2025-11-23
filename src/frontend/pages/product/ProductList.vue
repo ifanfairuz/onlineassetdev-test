@@ -4,9 +4,14 @@ import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/t
 import { formatCurrency, formatDate } from '@/lib/utils'
 import { useProductStore } from '@/stores/product'
 import { storeToRefs } from 'pinia'
+import { onBeforeMount } from 'vue'
 
 const store = useProductStore()
 const { state, loading } = storeToRefs(store)
+
+onBeforeMount(() => {
+  store.refresh()
+})
 </script>
 
 <template>

@@ -19,3 +19,10 @@ export function formatDate(date: Date, locale = 'en-US') {
     timeStyle: 'short',
   }).format(date)
 }
+
+export function formatTimestamp(date: Date, locale = 'en-US') {
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: 'medium',
+    timeStyle: 'long',
+  }).format(date)
+}
