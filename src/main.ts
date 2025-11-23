@@ -15,7 +15,7 @@ await bindApi(app)
 await bindFrontend(app, { base, ssr })
 
 // error handler
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof HttpException) {
     return err.sendResponse(res, req)
@@ -25,7 +25,11 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 
-  res.redirect('/error/500')
+  if (process.env.NODE_ENV === 'production') {
+    return res.redirect('/error/500')
+  }
+
+  next(err)
 }
 
 app.use(errorHandler)

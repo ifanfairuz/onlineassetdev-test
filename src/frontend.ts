@@ -4,6 +4,7 @@ import compression from 'compression'
 import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
 
+const include = new Function('specifier', 'return import(specifier)')
 const public_path = fileURLToPath(new URL('public', import.meta.url))
 
 export default async function bindFrontend(
@@ -15,11 +16,11 @@ export default async function bindFrontend(
 ) {
   const template = readFileSync(join(public_path, 'index.html'), 'utf-8')
   const manifest = JSON.parse(readFileSync(join(public_path, '.vite/ssr-manifest.json'), 'utf-8'))
-  const include = new Function('specifier', 'return import(specifier)')
   const { render } = await include('./ssr/main.server.js')
 
   app.use(compression())
   app.use(express.static(public_path, { extensions: ['js', 'css', 'ico'], index: false }))
+
   if (options.ssr) {
     app.use('*all', async (req, res, next) => {
       try {
