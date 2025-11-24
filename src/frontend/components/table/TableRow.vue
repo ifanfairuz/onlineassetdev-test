@@ -1,5 +1,5 @@
 <template>
-  <tr class="*:text-gray-900 *:first:font-medium">
+  <tr class="*:text-foreground *:first:font-medium hover:bg-muted-foreground/10">
     <slot />
   </tr>
 </template>

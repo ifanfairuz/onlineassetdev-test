@@ -9,15 +9,18 @@ import SidebarNav from './SidebarNav.vue'
   <aside
     :class="
       cn(
-        'w-72 h-svh fixed flex flex-col',
-        'z-100 bg-neutral-100 lg:bg-none lg:static -translate-x-72 lg:translate-x-0!',
+        'w-(--sidebar-width) h-svh fixed flex flex-col',
+        'z-100 bg-sidebar text-sidebar-foreground lg:bg-none lg:static -translate-x-(--sidebar-width) lg:translate-x-0!',
         'transition-all duration-100 ease-in-out in-data-[sidebar=show]:translate-x-0',
       )
     "
   >
-    <div class="flex-1 flex flex-col p-4 gap-4 w-72">
+    <div class="flex-1 flex flex-col p-4 gap-4 w-(--sidebar-width)">
       <!-- brand -->
-      <router-link to="/" class="hover:bg-neutral-200 rounded-md">
+      <router-link
+        to="/"
+        class="hover:bg-muted-foreground/20 rounded-md outline-0 focus-visible:ring-2 ring-ring/50"
+      >
         <Brand />
       </router-link>
 

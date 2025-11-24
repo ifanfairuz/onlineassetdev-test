@@ -103,7 +103,7 @@ const endRow = computed(() => startRow.value + props.datas.length - 1)
             <option value="50">50</option>
           </Select>
         </div>
-        <ul class="flex justify-center gap-3 text-gray-900">
+        <ul class="flex justify-center gap-3 text-foreground">
           <li>
             <Button variant="outline" aria-label="Previous page" @click="emits('prev')">
               <svg

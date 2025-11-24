@@ -10,7 +10,7 @@ defineProps<{
   <component
     :is="!!external ? 'a' : 'router-link'"
     :to="url"
-    class="hover:bg-neutral-200 ring-offset-0 first:rounded-t-md last:rounded-b-md"
+    class="hover:bg-muted-foreground/20 focus-visible:ring-2 ring-ring/50 outline-0 first:rounded-t-md last:rounded-b-md [&.router-link-active]:shadow-xs"
   >
     <div class="flex items-center gap-2 p-2">
       <span class="[&>svg]:size-5">

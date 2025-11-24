@@ -31,7 +31,7 @@ const datas = computed(() => {
 <template>
   <nav aria-label="Breadcrumb">
     <ol
-      class="flex items-center gap-1 text-sm text-neutral-500 [&_li:last-child]:text-foreground [&_li:last-child]:font-bold"
+      class="flex items-center gap-1 text-sm text-muted-foreground [&_li:last-child]:text-foreground [&_li:last-child]:font-bold"
     >
       <li v-for="item in datas" :key="item.label">
         <component

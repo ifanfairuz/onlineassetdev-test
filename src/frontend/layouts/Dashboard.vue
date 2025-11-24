@@ -13,8 +13,12 @@ defineProps<{
 const sidebar = ref<SidebarRef>()
 const router = useRouter()
 router.afterEach((to) => {
-  if (to.meta?.breadcrumbs) {
-    sidebar.value?.setBreadcrumbs(to.meta.breadcrumbs as BreadcrumbData[])
+  if (sidebar.value) {
+    if (to.meta?.breadcrumbs) {
+      sidebar.value.setBreadcrumbs(to.meta.breadcrumbs as BreadcrumbData[])
+    }
+
+    sidebar.value.close()
   }
 })
 </script>

@@ -9,7 +9,7 @@ export default async function bindFrontend(
     ssr: boolean
   },
 ) {
-  console.log('Configuring Frontend for development')
+  console.warn('Binding frontend in development mode')
 
   const vite = await createServer({
     server: { middlewareMode: true },

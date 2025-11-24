@@ -4,12 +4,12 @@ import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/t
 import { formatDate } from '@/lib/utils'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 
 const store = useUserStore()
 const { state, loading } = storeToRefs(store)
 
-onBeforeMount(() => {
+onMounted(() => {
   store.refresh()
 })
 </script>

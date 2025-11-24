@@ -15,7 +15,7 @@ const onChange = (e: Event) => {
 
 <template>
   <select
-    class="w-full rounded-md border-neutral-300 sm:text-sm outline-0 focus-visible:ring-2 focus-visible:ring-ring/50 ring-offset-2"
+    class="w-full rounded-md bg-input/60 border-border sm:text-sm outline-0 focus-visible:ring-2 ring-ring/50"
     :value="modelValue"
     @change="onChange"
   >

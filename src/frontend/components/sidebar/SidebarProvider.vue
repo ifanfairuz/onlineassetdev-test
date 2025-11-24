@@ -36,17 +36,20 @@ provideSidebarContext({
 
 defineExpose<SidebarRef>({
   setBreadcrumbs,
+  toggle,
+  open,
+  close,
 })
 </script>
 
 <template>
-  <div class="bg-neutral-100 min-h-svh flex w-full" :data-sidebar="opened ? 'show' : 'hidden'">
+  <div class="bg-sidebar min-h-svh flex" :data-sidebar="opened ? 'show' : 'hidden'">
     <Sidebar />
     <div
       class="fixed h-svh w-svw bg-black/50 hidden in-data-[sidebar=show]:block lg:hidden! transition duration-100 ease-in-out delay-100"
       @click="close"
     />
-    <main class="flex-1 flex p-2">
+    <main class="flex-1 flex flex-col p-2 w-svw lg:w-[calc(100vw-var(--sidebar-width))]">
       <div class="flex-1 flex flex-col bg-background rounded-lg">
         <Header />
         <div class="p-4 lg:p-6">

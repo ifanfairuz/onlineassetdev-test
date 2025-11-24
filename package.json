@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "dev": "tsx watch -C development src/main.ts",
+    "dev": "tsx watch -C development src/server.ts",
     "build": "run-p build:client build:ssr && run-p build:server",
     "build:client": "vite build --outDir dist/public --ssrManifest",
     "build:ssr": "vite build --ssr src/frontend/main.server.ts --outDir dist/ssr",
@@ -21,7 +21,7 @@
     "db:migrate": "tsx src/api/database/migrate.ts",
     "db:migrate:reset": "tsx src/api/database/migrate.ts --drop",
     "db:seed": "tsx src/api/database/seed.ts",
-    "start": "node dist/main.js",
+    "start": "node dist/server.js",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write src/"
   },

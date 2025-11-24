@@ -9,7 +9,7 @@ const { toggle, breadcrumbs } = useSidebar()
   <header class="flex items-center border-b px-2 h-14">
     <div class="px-2 lg:hidden">
       <button
-        class="p-2 hover:bg-neutral-200 rounded-md cursor-pointer"
+        class="p-2 hover:bg-muted rounded-md cursor-pointer"
         aria-label="toggle sidebar"
         type="button"
         @click="toggle"
