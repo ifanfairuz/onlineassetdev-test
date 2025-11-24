@@ -15,14 +15,7 @@ export function formatCurrency(value: number, currency = 'USD', locale = 'en-US'
 
 export function formatDate(date: Date, locale = 'en-US') {
   return new Intl.DateTimeFormat(locale, {
-    dateStyle: 'medium',
+    dateStyle: 'short',
     timeStyle: 'short',
-  }).format(date)
-}
-
-export function formatTimestamp(date: Date, locale = 'en-US') {
-  return new Intl.DateTimeFormat(locale, {
-    dateStyle: 'medium',
-    timeStyle: 'medium',
   }).format(date)
 }

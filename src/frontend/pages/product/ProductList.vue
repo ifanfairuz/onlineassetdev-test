@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { createProduct, getProducts } from '@/api/product'
+import { useApiClient } from '@/api'
 import { Management } from '@/components/management'
 import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/table'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
+
+const { product } = useApiClient()
 </script>
 
 <template>
   <Management
-    :fetch-datas="getProducts"
-    :create-data="createProduct"
+    :fetch-datas="product.getProducts"
+    :create-data="product.createProduct"
     :get-id="({ id }) => id.toString()"
   >
     <template #table-head>
       <TableHeadRow>
+        <TableHeadCell class="w-20">ID</TableHeadCell>
         <TableHeadCell>Name</TableHeadCell>
         <TableHeadCell class="w-[200px]">Price</TableHeadCell>
         <TableHeadCell>Category</TableHeadCell>
-        <TableHeadCell class="w-[250px]">Created At</TableHeadCell>
-        <TableHeadCell class="w-[250px]">Updated At</TableHeadCell>
       </TableHeadRow>
     </template>
     <template #render-row="{ data }">
       <TableRow>
+        <TableCell>{{ data.id }}</TableCell>
         <TableCell>{{ data.name }}</TableCell>
         <TableCell>{{ formatCurrency(data.price) }}</TableCell>
         <TableCell>{{ data.category }}</TableCell>
-        <TableCell>{{ formatDate(data.created_at) }}</TableCell>
-        <TableCell>{{ formatDate(data.updated_at) }}</TableCell>
       </TableRow>
     </template>
   </Management>

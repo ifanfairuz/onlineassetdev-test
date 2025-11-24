@@ -1,26 +1,29 @@
 <script setup lang="ts">
-import { createUser, getUsers } from '@/api/user'
+import { useApiClient } from '@/api'
 import { Management } from '@/components/management'
 import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/table'
-import { formatDate } from '@/lib/utils'
+
+const { user } = useApiClient()
 </script>
 
 <template>
-  <Management :fetch-datas="getUsers" :create-data="createUser" :get-id="({ id }) => id.toString()">
+  <Management
+    :fetch-datas="user.getUsers"
+    :create-data="user.createUser"
+    :get-id="({ id }) => id.toString()"
+  >
     <template #table-head>
       <TableHeadRow>
+        <TableHeadCell class="w-20">ID</TableHeadCell>
         <TableHeadCell>Name</TableHeadCell>
         <TableHeadCell>Email</TableHeadCell>
-        <TableHeadCell class="w-[250px]">Created At</TableHeadCell>
-        <TableHeadCell class="w-[250px]">Updated At</TableHeadCell>
       </TableHeadRow>
     </template>
     <template #render-row="{ data }">
       <TableRow>
+        <TableCell>{{ data.id }}</TableCell>
         <TableCell>{{ data.name }}</TableCell>
         <TableCell>{{ data.email }}</TableCell>
-        <TableCell>{{ formatDate(data.created_at) }}</TableCell>
-        <TableCell>{{ formatDate(data.updated_at) }}</TableCell>
       </TableRow>
     </template>
   </Management>

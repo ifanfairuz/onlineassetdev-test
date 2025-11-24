@@ -21,29 +21,6 @@ export interface ManagementContextOptions<Model, CreatePayload> {
   createData: (data: CreatePayload) => Promise<Model>
 }
 
-function parseInteger(value: unknown, default_value: number, allows?: number[]) {
-  if (typeof value !== 'number' && typeof value !== 'string') return default_value
-
-  let result: number
-  if (typeof value === 'string') {
-    result = parseInt(value)
-  } else if (!Number.isInteger(value)) {
-    return default_value
-  } else {
-    result = value as number
-  }
-
-  if (isNaN(result)) {
-    return default_value
-  }
-
-  if (!!allows && !allows.includes(result)) {
-    return default_value
-  }
-
-  return result
-}
-
 export function provideManagementContext<Model, CreatePayload>(
   options: ManagementContextOptions<Model, CreatePayload>,
 ) {
@@ -156,4 +133,35 @@ export function useManagementContext<M, C>() {
   }
 
   return data
+}
+
+/**
+ * Parse to integer
+ *
+ * @param value
+ * @param default_value
+ * @param allows
+ * @returns
+ */
+function parseInteger(value: unknown, default_value: number, allows?: number[]) {
+  if (typeof value !== 'number' && typeof value !== 'string') return default_value
+
+  let result: number
+  if (typeof value === 'string') {
+    result = parseInt(value)
+  } else if (!Number.isInteger(value)) {
+    return default_value
+  } else {
+    result = value as number
+  }
+
+  if (isNaN(result)) {
+    return default_value
+  }
+
+  if (!!allows && !allows.includes(result)) {
+    return default_value
+  }
+
+  return result
 }
