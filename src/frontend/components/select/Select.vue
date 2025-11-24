@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   modelValue: string
+  disabled?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -15,7 +16,8 @@ const onChange = (e: Event) => {
 
 <template>
   <select
-    class="w-full rounded-md bg-input/60 border-border sm:text-sm outline-0 focus-visible:ring-2 ring-ring/50"
+    class="w-full rounded-md bg-input/60 border-border sm:text-sm outline-0 focus-visible:ring-2 ring-ring/50 disabled:opacity-50 disabled:pointer-events-none"
+    v-bind="$props"
     :value="modelValue"
     @change="onChange"
   >

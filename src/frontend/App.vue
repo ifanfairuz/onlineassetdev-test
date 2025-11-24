@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { setupColorSchema } from './lib/color-schema'
+import { provideColorSchema } from './lib/color-schema'
 
-setupColorSchema()
+provideColorSchema()
 </script>
 
 <template>

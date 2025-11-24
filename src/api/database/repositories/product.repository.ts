@@ -29,7 +29,7 @@ export async function selectProductsWithPagination(
 export async function countProducts(db: ConnectionOrPool): Promise<number> {
   const result = await db.query('SELECT COUNT(*) AS count FROM products;')
 
-  return result.rows[0].count
+  return parseInt(result.rows[0].count)
 }
 
 export async function insertProduct(

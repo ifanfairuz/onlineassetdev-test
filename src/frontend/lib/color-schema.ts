@@ -8,7 +8,7 @@ interface ColorSchema {
   toggle: (set?: BasicColorMode) => void
 }
 
-export function setupColorSchema() {
+export function provideColorSchema() {
   const onChanged = (mode: BasicColorMode) => {
     if (typeof window === 'undefined') return
 
@@ -49,7 +49,7 @@ export function setupColorSchema() {
 export function useColorSchema(): ColorSchema {
   const data = inject<ColorSchema>(KEY)
   if (!data) {
-    throw new Error('useColorSchema must be called within a setupColorSchema on parent component')
+    throw new Error('useColorSchema must be called within a provideColorSchema on parent component')
   }
 
   return data

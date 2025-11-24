@@ -1,35 +1,13 @@
 <script setup lang="ts">
-import DataTable from '@/components/DataTable.vue'
+import { createUser, getUsers } from '@/api/user'
+import { Management } from '@/components/management'
 import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/table'
 import { formatDate } from '@/lib/utils'
-import { useUserStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
-
-const store = useUserStore()
-const { state, loading } = storeToRefs(store)
-
-onMounted(() => {
-  store.refresh()
-})
 </script>
 
 <template>
-  <DataTable
-    :datas="state.data"
-    :get-id="({ id }) => id.toString()"
-    :current-page="state.meta.current_page"
-    :pages-count="state.meta.total_pages"
-    :rows-count="state.meta.total"
-    :per-page="state.meta.per_page"
-    :last-fetched-at="state.meta.fetched_at"
-    :loading="loading"
-    @update:per-page="store.setPerPage"
-    @next="store.next"
-    @prev="store.prev"
-    @refresh="store.refresh"
-  >
-    <template #head>
+  <Management :fetch-datas="getUsers" :create-data="createUser" :get-id="({ id }) => id.toString()">
+    <template #table-head>
       <TableHeadRow>
         <TableHeadCell>Name</TableHeadCell>
         <TableHeadCell>Email</TableHeadCell>
@@ -37,7 +15,7 @@ onMounted(() => {
         <TableHeadCell class="w-[250px]">Updated At</TableHeadCell>
       </TableHeadRow>
     </template>
-    <template #render="{ data }">
+    <template #render-row="{ data }">
       <TableRow>
         <TableCell>{{ data.name }}</TableCell>
         <TableCell>{{ data.email }}</TableCell>
@@ -45,5 +23,5 @@ onMounted(() => {
         <TableCell>{{ formatDate(data.updated_at) }}</TableCell>
       </TableRow>
     </template>
-  </DataTable>
+  </Management>
 </template>

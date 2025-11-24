@@ -28,7 +28,7 @@ export async function selectUsersWithPagination(
 export async function countUsers(db: ConnectionOrPool): Promise<number> {
   const result = await db.query('SELECT COUNT(*) AS count FROM users;')
 
-  return result.rows[0].count
+  return parseInt(result.rows[0].count)
 }
 
 export async function insertUser(
