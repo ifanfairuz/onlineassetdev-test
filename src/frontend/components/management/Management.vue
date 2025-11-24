@@ -16,7 +16,7 @@ defineExpose(ctx)
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap-4">
     <!-- toolbar -->
     <ManagementToolbar />
 

@@ -23,6 +23,6 @@ export function formatDate(date: Date, locale = 'en-US') {
 export function formatTimestamp(date: Date, locale = 'en-US') {
   return new Intl.DateTimeFormat(locale, {
     dateStyle: 'medium',
-    timeStyle: 'long',
+    timeStyle: 'medium',
   }).format(date)
 }

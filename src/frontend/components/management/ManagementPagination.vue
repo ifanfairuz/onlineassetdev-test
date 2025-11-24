@@ -19,11 +19,11 @@ const shown_label = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start lg:flex-row lg:items-center lg:justify-between">
+  <div class="flex flex-col gap-x-2 gap-y-4 md:flex-row md:items-center md:justify-between">
     <div class="text-muted-foreground text-sm">
       {{ shown_label }}
     </div>
-    <div class="flex items-center gap-8">
+    <div class="flex items-center gap-4 justify-between">
       <div class="flex items-center gap-2">
         <p class="text-sm text-muted-foreground">Show</p>
         <Select
