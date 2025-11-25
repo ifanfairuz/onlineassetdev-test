@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useApiClient } from '@/api'
-import { Management } from '@/components/management'
+import { Datatable } from '@/components/datatable'
 import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/table'
 
 const { user } = useApiClient()
@@ -8,7 +8,7 @@ const fetchDatas = user.getUsers.bind(user)
 </script>
 
 <template>
-  <Management
+  <Datatable
     :fetch-datas="fetchDatas"
     :get-id="({ id }) => id.toString()"
     create-url="/users/create"
@@ -27,5 +27,5 @@ const fetchDatas = user.getUsers.bind(user)
         <TableCell>{{ data.email }}</TableCell>
       </TableRow>
     </template>
-  </Management>
+  </Datatable>
 </template>

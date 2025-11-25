@@ -3,13 +3,13 @@ import { Table, TableBody, TableHead } from '@/components/table'
 import IconLoading from '../icons/IconLoading.vue'
 import TableRow from '../table/TableRow.vue'
 import TableCell from '../table/TableCell.vue'
-import { useManagementContext } from './management-context'
+import { useDatatableContext } from './datatable-context'
 
 defineProps<{
   getId: (data: Model) => string
 }>()
 
-const { datas, loading } = useManagementContext<Model>()
+const { datas, loading } = useDatatableContext<Model>()
 </script>
 
 <template>

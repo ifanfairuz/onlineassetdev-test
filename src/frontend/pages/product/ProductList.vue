@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useApiClient } from '@/api'
-import { Management } from '@/components/management'
+import { Datatable } from '@/components/datatable'
 import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/table'
 import { formatCurrency } from '@/lib/utils'
 
@@ -9,7 +9,7 @@ const fetchDatas = product.getProducts.bind(product)
 </script>
 
 <template>
-  <Management
+  <Datatable
     :fetch-datas="fetchDatas"
     :get-id="({ id }) => id.toString()"
     create-url="/products/create"
@@ -30,5 +30,5 @@ const fetchDatas = product.getProducts.bind(product)
         <TableCell>{{ data.category }}</TableCell>
       </TableRow>
     </template>
-  </Management>
+  </Datatable>
 </template>

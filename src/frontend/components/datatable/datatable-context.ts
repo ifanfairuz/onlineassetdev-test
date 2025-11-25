@@ -2,7 +2,7 @@ import { inject, onBeforeUnmount, onMounted, provide, ref, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 
-const KEY = Symbol('management-context')
+const KEY = Symbol('datatable-context')
 
 interface Meta {
   current_page: number
@@ -17,11 +17,11 @@ interface FetchResult<Model> {
   meta: Meta
 }
 
-export interface ManagementContextOptions<Model> {
+export interface DatatableContextOptions<Model> {
   fetchDatas: (page: number, perPage: number) => Promise<FetchResult<Model>>
 }
 
-export function provideManagementContext<Model>(options: ManagementContextOptions<Model>) {
+export function provideDatatableContext<Model>(options: DatatableContextOptions<Model>) {
   const router = useRouter()
   const route = useRoute()
   const route_path = route.path
@@ -105,11 +105,11 @@ export function provideManagementContext<Model>(options: ManagementContextOption
   return context
 }
 
-export function useManagementContext<M>() {
-  const data = inject<ReturnType<typeof provideManagementContext<M>>>(KEY)
+export function useDatatableContext<M>() {
+  const data = inject<ReturnType<typeof provideDatatableContext<M>>>(KEY)
   if (!data) {
     throw new Error(
-      'useManagementContext must be called within a setupManagementContext on parent component',
+      'useDatatableContext must be called within a setupDatatableContext on parent component',
     )
   }
 

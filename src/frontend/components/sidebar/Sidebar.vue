@@ -47,7 +47,7 @@ import SidebarNav from './SidebarNav.vue'
           </template>
         </SidebarItem>
       </SidebarNav>
-      <SidebarNav heading="Management">
+      <SidebarNav heading="Datatable">
         <SidebarItem url="/users" title="User">
           <template #icon>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

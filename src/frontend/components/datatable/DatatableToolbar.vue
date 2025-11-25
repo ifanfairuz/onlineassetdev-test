@@ -2,12 +2,12 @@
 import Button from '../Button.vue'
 import { formatDate } from '@/lib/utils'
 import IconLoading from '../icons/IconLoading.vue'
-import { useManagementContext } from './management-context'
+import { useDatatableContext } from './datatable-context'
 
 defineProps<{
   createUrl?: string
 }>()
-const { loading, meta } = useManagementContext<Model>()
+const { loading, meta } = useDatatableContext<Model>()
 </script>
 
 <template>
