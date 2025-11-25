@@ -34,20 +34,26 @@ npm install
 | PGPORT      | PostgreSQL port                      |         |
 | PGDATABASE  | PostgreSQL database name             |         |
 
-4. Run migrations and seeders
+4. Build the project
+
+```bash
+npm run build
+```
+
+5. Run migrations and seeders
 
 ```bash
 npm run db:migrate
 npm run db:seed
 ```
 
-5. Start the server
+6. Start the server
 
 ```bash
-npm run dev
+npm run start
 ```
 
-6. Open [`http://localhost:3000`] in your browser or visit `http://localhost:PORT` in your browser
+7. Open [`http://localhost:3000`] in your browser or visit `http://localhost:PORT` in your browser
 
 ## Tech Stack
 
