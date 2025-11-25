@@ -8,8 +8,8 @@
     "playwright.config.*",
     "eslint.config.*",
     "src/*.ts",
-    "src/api/**/*",
-    "src/shared/**/*"
+    "src/api/**/*.ts",
+    "src/shared/**/*.ts"
   ],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { provideApiClient } from './api'
+import { Toaster } from 'vue-sonner'
 import { provideColorSchema } from './lib/color-schema'
 
-provideApiClient()
 provideColorSchema()
 </script>
 
 <template>
   <router-view />
+  <Toaster theme="system" />
 </template>

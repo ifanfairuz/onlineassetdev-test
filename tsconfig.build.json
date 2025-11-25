@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.node.json",
-  "include": ["src/*.ts", "src/api/**/*", "src/shared/**/*"],
+  "include": ["src/*.ts", "src/api/**/*.ts", "src/shared/**/*.ts"],
+  "exclude": ["src/**/*.dev.ts"],
   "compilerOptions": {
     "customConditions": [],
     "rootDir": "./src"

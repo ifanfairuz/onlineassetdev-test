@@ -1,15 +1,20 @@
 import { RequestHandler } from 'express'
-import z from 'zod'
 import { getUsers } from '../services/user/get-user.service.ts'
 import { createUser } from '../services/user/create-user.service.ts'
+import { paginationPayloadSchema } from '#shared/validation/pagination.schema'
+import { createUserPayloadSchema } from '#shared/validation/user.schema'
+import { ValidationException } from '#shared/exceptions/ValidationException'
+import { DuplicateEmailException } from '../services/user/exceptions/DuplicateEmailException.ts'
 
+/**
+ * Get all users
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
 export const getUsersHandler: RequestHandler = async (req, res) => {
-  const schema = z.object({
-    page: z.coerce.number().min(1).default(1).optional(),
-    per_page: z.coerce.number().min(1).max(100).default(10).optional(),
-  })
-
-  const { page, per_page } = schema.parse(req.query)
+  const { page, per_page } = paginationPayloadSchema.parse(req.query)
   const response = await getUsers(page, per_page)
 
   return res.json({
@@ -25,14 +30,30 @@ export const getUsersHandler: RequestHandler = async (req, res) => {
   })
 }
 
+/**
+ * Create a user
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
 export const createUserHandler: RequestHandler = async (req, res) => {
-  const schema = z.object({
-    name: z.string().min(1).max(255),
-    email: z.email().min(1).max(255),
-  })
+  try {
+    const { name, email } = createUserPayloadSchema.parse(req.body)
+    const response = await createUser({ name, email })
 
-  const { name, email } = schema.parse(req.body)
-  const user = await createUser({ name, email })
+    return res.json(response)
+  } catch (error) {
+    if (error instanceof DuplicateEmailException) {
+      throw new ValidationException({
+        email: 'Email already exists',
+      })
+    }
 
-  return res.json(user)
+    if (error instanceof Error) {
+      throw error
+    }
+
+    throw new Error('Internal Server Error')
+  }
 }

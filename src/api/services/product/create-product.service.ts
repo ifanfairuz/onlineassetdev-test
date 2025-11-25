@@ -1,4 +1,4 @@
-import { CreateProductPayload, Product } from '../../../shared/model/product.ts'
+import { CreateProductPayload, Product } from '#shared/model/product'
 import { getConnection } from '../../database/connection.ts'
 import { insertProduct } from '../../database/repositories/product.repository.ts'
 

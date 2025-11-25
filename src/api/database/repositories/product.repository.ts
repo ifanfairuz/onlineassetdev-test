@@ -1,4 +1,4 @@
-import { Product } from '../../../shared/model/product.ts'
+import { Product } from '#shared/model/product.ts'
 import { Connection, ConnectionOrPool } from '../connection.ts'
 
 export async function selectProductsWithPagination(

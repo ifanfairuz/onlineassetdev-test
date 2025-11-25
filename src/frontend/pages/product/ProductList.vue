@@ -5,13 +5,14 @@ import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/t
 import { formatCurrency } from '@/lib/utils'
 
 const { product } = useApiClient()
+const fetchDatas = product.getProducts.bind(product)
 </script>
 
 <template>
   <Management
-    :fetch-datas="product.getProducts"
-    :create-data="product.createProduct"
+    :fetch-datas="fetchDatas"
     :get-id="({ id }) => id.toString()"
+    create-url="/products/create"
   >
     <template #table-head>
       <TableHeadRow>

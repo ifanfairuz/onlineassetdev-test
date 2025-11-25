@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="Model">
 import { computed } from 'vue'
 import { useManagementContext } from './management-context'
-import { Select, SelectItem } from '../select'
+import { Select, SelectItem } from '../form'
 import Button from '../Button.vue'
 
-const { loading, meta, datas, setPerPage, next, prev } = useManagementContext<Model, never>()
+const { loading, meta, datas, setPerPage, next, prev } = useManagementContext<Model>()
 const shown_label = computed(() => {
   const rows_count = datas.value.length
   if (rows_count === 0) return ''

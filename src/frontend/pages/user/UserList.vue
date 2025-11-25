@@ -4,13 +4,14 @@ import { Management } from '@/components/management'
 import { TableCell, TableHeadCell, TableHeadRow, TableRow } from '@/components/table'
 
 const { user } = useApiClient()
+const fetchDatas = user.getUsers.bind(user)
 </script>
 
 <template>
   <Management
-    :fetch-datas="user.getUsers"
-    :create-data="user.createUser"
+    :fetch-datas="fetchDatas"
     :get-id="({ id }) => id.toString()"
+    create-url="/users/create"
   >
     <template #table-head>
       <TableHeadRow>

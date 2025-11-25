@@ -1,15 +1,18 @@
 import { RequestHandler } from 'express'
-import z from 'zod'
 import { getProducts } from '../services/product/get-product.service.ts'
 import { createProduct } from '../services/product/create-product.service.ts'
+import { paginationPayloadSchema } from '#shared/validation/pagination.schema'
+import { createProductPayloadSchema } from '#shared/validation/product.schema'
 
+/**
+ * Get all products
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
 export const getProductsHandler: RequestHandler = async (req, res) => {
-  const schema = z.object({
-    page: z.coerce.number().min(1).default(1).optional(),
-    per_page: z.coerce.number().min(1).max(100).default(10).optional(),
-  })
-
-  const { page, per_page } = schema.parse(req.query)
+  const { page, per_page } = paginationPayloadSchema.parse(req.query)
   const response = await getProducts(page, per_page)
 
   return res.json({
@@ -25,14 +28,15 @@ export const getProductsHandler: RequestHandler = async (req, res) => {
   })
 }
 
+/**
+ * Create a product
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
 export const createProductHandler: RequestHandler = async (req, res) => {
-  const schema = z.object({
-    name: z.string().min(1).max(255),
-    price: z.number().min(1).max(1_000_000_000),
-    category: z.string().min(1).max(255),
-  })
-
-  const payload = schema.parse(req.body)
+  const payload = createProductPayloadSchema.parse(req.body)
   const user = await createProduct(payload)
 
   return res.json(user)

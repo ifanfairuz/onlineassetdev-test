@@ -9,7 +9,7 @@ defineProps<{
   getId: (data: Model) => string
 }>()
 
-const { datas, loading } = useManagementContext<Model, never>()
+const { datas, loading } = useManagementContext<Model>()
 </script>
 
 <template>

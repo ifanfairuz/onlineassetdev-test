@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 import { computed } from 'vue'
+import IconLoading from './icons/IconLoading.vue'
 
 const props = defineProps<{
   class?: string
   to?: string
   variant?: 'primary' | 'ghost' | 'outline'
+  loading?: boolean
 }>()
 
 const variant = computed(() => {
@@ -35,6 +37,10 @@ const variant = computed(() => {
       )
     "
   >
-    <slot />
+    <template v-if="loading">
+      <IconLoading />
+      <span> Loading... </span>
+    </template>
+    <slot v-else />
   </component>
 </template>

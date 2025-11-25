@@ -18,11 +18,31 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/users/create',
+    name: 'dashboard.user.create',
+    component: () => import('@/pages/user/UserCreate.vue'),
+    meta: {
+      breadcrumbs: [{ label: 'Management' }, { label: 'User', url: '/users' }, { label: 'Create' }],
+    },
+  },
+  {
     path: '/products',
     name: 'dashboard.product.list',
     component: () => import('@/pages/product/ProductList.vue'),
     meta: {
       breadcrumbs: [{ label: 'Management' }, { label: 'Product' }],
+    },
+  },
+  {
+    path: '/products/create',
+    name: 'dashboard.product.create',
+    component: () => import('@/pages/product/ProductCreate.vue'),
+    meta: {
+      breadcrumbs: [
+        { label: 'Management' },
+        { label: 'Product', url: '/products' },
+        { label: 'Create' },
+      ],
     },
   },
 ]

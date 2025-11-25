@@ -1,4 +1,4 @@
-import { ProductListPaginated } from '../../../shared/model/product.ts'
+import { ProductListPaginated } from '#shared/model/product'
 import { pool } from '../../database/connection.ts'
 import {
   countProducts,

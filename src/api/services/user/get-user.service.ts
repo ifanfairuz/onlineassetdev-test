@@ -1,4 +1,4 @@
-import { UserListPaginated } from '../../../shared/model/user.ts'
+import { UserListPaginated } from '#shared/model/user'
 import { pool } from '../../database/connection.ts'
 import {
   countUsers,

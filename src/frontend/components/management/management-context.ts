@@ -1,5 +1,6 @@
 import { inject, onBeforeUnmount, onMounted, provide, ref, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 
 const KEY = Symbol('management-context')
 
@@ -16,14 +17,11 @@ interface FetchResult<Model> {
   meta: Meta
 }
 
-export interface ManagementContextOptions<Model, CreatePayload> {
+export interface ManagementContextOptions<Model> {
   fetchDatas: (page: number, perPage: number) => Promise<FetchResult<Model>>
-  createData: (data: CreatePayload) => Promise<Model>
 }
 
-export function provideManagementContext<Model, CreatePayload>(
-  options: ManagementContextOptions<Model, CreatePayload>,
-) {
+export function provideManagementContext<Model>(options: ManagementContextOptions<Model>) {
   const router = useRouter()
   const route = useRoute()
   const route_path = route.path
@@ -45,6 +43,8 @@ export function provideManagementContext<Model, CreatePayload>(
       const res = await options.fetchDatas(page ?? current_page, perPage ?? per_page)
       datas.value = res.data
       meta.value = res.meta
+    } catch {
+      toast.error('Error loading data')
     } finally {
       loading.value = false
     }
@@ -67,18 +67,6 @@ export function provideManagementContext<Model, CreatePayload>(
     go(meta.value.current_page - 1)
   }
 
-  async function add(payload: CreatePayload) {
-    if (loading.value) return
-
-    try {
-      loading.value = true
-      await options.createData(payload)
-      await getDatas()
-    } finally {
-      loading.value = false
-    }
-  }
-
   async function setPerPage(perPage: number) {
     if (loading.value) return
     meta.value = {
@@ -88,20 +76,13 @@ export function provideManagementContext<Model, CreatePayload>(
     go(1, perPage)
   }
 
-  async function refresh() {
-    if (loading.value) return
-    await getDatas()
-  }
-
   const context = {
     loading,
     datas,
     meta,
     next,
     prev,
-    add,
     setPerPage,
-    refresh,
   }
 
   const unsubscribe = router.beforeEach((to) => {
@@ -124,8 +105,8 @@ export function provideManagementContext<Model, CreatePayload>(
   return context
 }
 
-export function useManagementContext<M, C>() {
-  const data = inject<ReturnType<typeof provideManagementContext<M, C>>>(KEY)
+export function useManagementContext<M>() {
+  const data = inject<ReturnType<typeof provideManagementContext<M>>>(KEY)
   if (!data) {
     throw new Error(
       'useManagementContext must be called within a setupManagementContext on parent component',

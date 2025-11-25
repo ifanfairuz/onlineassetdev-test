@@ -10,6 +10,10 @@
     "#frontend": {
       "development": "./src/frontend.dev.js",
       "default": "./dist/frontend.js"
+    },
+    "#shared/*": {
+      "development": "./src/shared/*.js",
+      "default": "./dist/shared/*.js"
     }
   },
   "scripts": {
@@ -26,16 +30,20 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vee-validate/zod": "^4.15.1",
     "@vueuse/core": "^14.0.0",
+    "axios": "^1.13.2",
     "clsx": "^2.1.1",
     "compression": "^1.8.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "pg": "^8.16.3",
     "tailwind-merge": "^3.4.0",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.24",
     "vue-router": "^4.6.3",
-    "zod": "^4.1.12"
+    "vue-sonner": "^2.0.9",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",

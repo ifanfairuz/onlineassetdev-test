@@ -1,4 +1,4 @@
-import { User } from '../../../shared/model/user.ts'
+import { User } from '#shared/model/user.ts'
 import { Connection, ConnectionOrPool } from '../connection.ts'
 
 export async function selectUsersWithPagination(

@@ -4,7 +4,7 @@ import express, { ErrorRequestHandler } from 'express'
 
 import bindApi from './api.ts'
 import bindFrontend from '#frontend'
-import { HttpException } from './shared/exceptions/HttpException.ts'
+import { HttpException } from '#shared/exceptions/HttpException'
 
 const port = process.env.PORT ?? 3000
 const base = process.env.BASE_URL ?? '/'
