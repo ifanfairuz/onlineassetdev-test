@@ -5,7 +5,8 @@ import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
 
 const include = new Function('specifier', 'return import(specifier)')
-const public_path = fileURLToPath(new URL('public', import.meta.url))
+const base_path = fileURLToPath(new URL('/', import.meta.url))
+const public_path = join(base_path, 'public')
 
 export default async function bindFrontend(
   app: Application,
@@ -16,7 +17,7 @@ export default async function bindFrontend(
 ) {
   const template = readFileSync(join(public_path, 'index.html'), 'utf-8')
   const manifest = JSON.parse(readFileSync(join(public_path, '.vite/ssr-manifest.json'), 'utf-8'))
-  const { render } = await include('./ssr/main.server.js')
+  const { render } = await include(join(base_path, 'ssr/main.server.js'))
 
   app.use(compression())
   app.use(express.static(public_path, { extensions: ['js', 'css', 'ico'], index: false }))
