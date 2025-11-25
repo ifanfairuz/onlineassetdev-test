@@ -4,10 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'dashboard.home',
-    component: () => import('@/pages/Home.vue'),
-    meta: {
-      breadcrumbs: [{ label: 'Dashboard' }],
-    },
+    redirect: '/users',
   },
   {
     path: '/users',
