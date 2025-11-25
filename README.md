@@ -1,48 +1,65 @@
 # onlineassetdev-test
 
-This template should help get you started developing with Vue 3 in Vite.
+# Getting Started
 
-## Recommended IDE Setup
+## Prerequisites
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Node.js >= v22
+- PostgreSQL
 
-## Recommended Browser Setup
+## Installation
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+1. Clone the repository
 
-## Type Support for `.vue` Imports in TS
+```bash
+git clone https://github.com/onlineassetdev/devtest.git
+```
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+2. Install dependencies
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+3. Create a `.env` file in the root directory and add the following content:
 
-```sh
+| Variable    | Description                          | Default |
+| ----------- | ------------------------------------ | ------- |
+| PORT        | The port number to run the server on | 3000    |
+| BASE_URL    | The base URL for the application     | /       |
+| DISABLE_SSR | Disable server-side rendering        | false   |
+| PGUSER      | PostgreSQL username                  |         |
+| PGPASSWORD  | PostgreSQL password                  |         |
+| PGHOST      | PostgreSQL host                      |         |
+| PGPORT      | PostgreSQL port                      |         |
+| PGDATABASE  | PostgreSQL database name             |         |
+
+4. Run migrations and seeders
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+5. Start the server
+
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+6. Open [`http://localhost:3000`] in your browser or visit `http://localhost:PORT` in your browser
 
-```sh
-npm run build
-```
+## Tech Stack
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Vue 3](https://v3.vuejs.org/)
+- [Vue Router](https://router.vuejs.org/)
+- [Vue Sonner](https://github.com/ifanfairuz/vue-sonner)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind Merge](https://github.com/dcastil/tailwind-merge)
+- [Vee Validate](https://vee-validate.logaretm.com/)
+- [Zod](https://github.com/colinhacks/zod)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Express](https://expressjs.com/)
+- [Node Pg](https://node-postgres.com/)
