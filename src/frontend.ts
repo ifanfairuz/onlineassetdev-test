@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
 
 const include = new Function('specifier', 'return import(specifier)')
-const base_path = fileURLToPath(new URL('/', import.meta.url))
+const base_path = fileURLToPath(new URL(import.meta.url))
 const public_path = join(base_path, 'public')
 
 export default async function bindFrontend(
