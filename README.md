@@ -24,7 +24,7 @@
 1. Clone the repository
 
 ```bash
-git clone https://github.com/onlineassetdev/devtest.git
+git clone https://github.com/ifanfairuz/onlineassetdev-test.git
 ```
 
 2. Install dependencies
