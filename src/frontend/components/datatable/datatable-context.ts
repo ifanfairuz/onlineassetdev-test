@@ -1,5 +1,5 @@
 import { inject, onBeforeUnmount, onMounted, provide, ref, watch, type Ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { toast } from 'vue-sonner'
 
 const KEY = Symbol('datatable-context')
@@ -22,9 +22,7 @@ export interface DatatableContextOptions<Model> {
 }
 
 export function provideDatatableContext<Model>(options: DatatableContextOptions<Model>) {
-  const router = useRouter()
   const route = useRoute()
-  const route_path = route.path
 
   const loading = ref(true)
   const search = ref(route.query.search ? String(route.query.search) : '')
@@ -37,11 +35,15 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
     fetched_at: null,
   })
 
-  async function getDatas(page?: number, perPage?: number) {
+  async function getDatas(page?: number, perPage?: number, keyword?: string) {
     try {
       loading.value = true
       const { current_page, per_page } = meta.value
-      const res = await options.fetchDatas(page ?? current_page, perPage ?? per_page, search.value)
+      const res = await options.fetchDatas(
+        page ?? current_page,
+        perPage ?? per_page,
+        keyword ?? search.value,
+      )
       datas.value = res.data
       meta.value = res.meta
     } catch {
@@ -51,28 +53,36 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
     }
   }
 
-  function go(page?: number, perPage?: number) {
+  function replaceHistory(page?: number, perPage?: number, search?: string) {
     const { current_page, per_page } = meta.value
-    router.replace({ query: { page: page ?? current_page, per_page: perPage ?? per_page } })
+    const url = new URL(route.path, window.location.href)
+    url.searchParams.set('page', String(page ?? current_page))
+    url.searchParams.set('per_page', String(perPage ?? per_page))
+    if (search?.length) {
+      url.searchParams.set('search', search)
+    }
+
+    history.replaceState(history.state, '', url.href)
   }
 
   function searching(keyword?: string) {
     const { per_page } = meta.value
-    router.replace({
-      query: { page: 1, per_page: per_page, search: keyword ?? search.value },
-    })
+    getDatas(1, per_page, keyword ?? search.value)
+    replaceHistory(1, per_page, keyword ?? search.value)
   }
 
   async function next() {
     if (loading.value) return
     if (meta.value.current_page === meta.value.total_pages) return
-    go(meta.value.current_page + 1)
+    getDatas(meta.value.current_page + 1)
+    replaceHistory(meta.value.current_page + 1)
   }
 
   async function prev() {
     if (loading.value) return
     if (meta.value.current_page === 1) return
-    go(meta.value.current_page - 1)
+    getDatas(meta.value.current_page - 1)
+    replaceHistory(meta.value.current_page - 1)
   }
 
   async function setPerPage(perPage: number) {
@@ -81,7 +91,8 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
       ...meta.value,
       per_page: perPage,
     }
-    go(1, perPage)
+    getDatas(1, perPage)
+    replaceHistory(1, perPage)
   }
 
   const context = {
@@ -93,15 +104,6 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
     prev,
     setPerPage,
   }
-
-  const unsubscribe = router.beforeEach((to) => {
-    if (to.path !== route_path) return
-
-    getDatas(
-      parseInteger(to.query.page, 1),
-      parseInteger(to.query.per_page, 10, [10, 20, 30, 40, 50]),
-    )
-  })
   onMounted(() => {
     getDatas()
   })
@@ -117,7 +119,9 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
   })
 
   onBeforeUnmount(() => {
-    unsubscribe()
+    if (timer) {
+      clearTimeout(timer)
+    }
   })
 
   provide(KEY, context)
