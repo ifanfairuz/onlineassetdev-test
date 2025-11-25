@@ -1,6 +1,13 @@
 import { Connection } from '../connection.ts'
 
-export async function seedUsersData(db: Connection) {
+export async function seedUsersData(db: Connection, onlyEmpty = false) {
+  if (onlyEmpty) {
+    const result = await db.query('SELECT COUNT(*) > 0 AS exists FROM users')
+    if (result.rows[0].exists) {
+      return
+    }
+  }
+
   const sql = 'INSERT INTO users (name, email) VALUES ($1, $2)'
 
   const datas = [

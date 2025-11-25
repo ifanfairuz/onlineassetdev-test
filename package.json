@@ -24,7 +24,7 @@
     "build:server": "tsc -p tsconfig.build.json --outDir dist",
     "db:migrate": "tsx src/api/database/migrate.ts",
     "db:migrate:reset": "tsx src/api/database/migrate.ts --drop",
-    "db:seed": "tsx src/api/database/seed.ts",
+    "db:seed": "tsx src/api/database/seed.ts --only-empty",
     "start": "node dist/server.js",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write src/"
