@@ -2,7 +2,7 @@ import { Connection } from '../connection.ts'
 
 export async function seedProductsData(db: Connection, onlyEmpty = false) {
   if (onlyEmpty) {
-    const result = await db.query('SELECT COUNT(*) > 0 AS exists FROM users')
+    const result = await db.query('SELECT COUNT(*) > 0 AS exists FROM products')
     if (result.rows[0].exists) {
       return
     }
