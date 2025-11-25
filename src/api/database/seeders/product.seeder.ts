@@ -1,119 +1,28 @@
 import { Connection } from '../connection.ts'
 
 export async function seedProductsData(db: Connection) {
-  const insert = async (payload: Record<string, unknown>) => {
-    await db.query('INSERT INTO products (name, price, category) VALUES ($1, $2, $3)', [
-      payload.name,
-      payload.price,
-      payload.category,
-    ])
+  const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3)'
+
+  const datas = [
+    { name: 'Laptop', price: 1000, category: 'electronics' },
+    { name: 'Phone', price: 500, category: 'electronics' },
+    { name: 'Tablet', price: 700, category: 'electronics' },
+    { name: 'Headphones', price: 50, category: 'electronics' },
+    { name: 'Keyboard', price: 200, category: 'electronics' },
+
+    // more products...
+    { name: 'Sporty Leggings', price: 39.99, category: 'Clothing - Activewear' },
+    { name: 'Athletic Jogging Jacket', price: 49.99, category: 'Clothing - Outerwear' },
+    { name: 'Training Soccer Ball', price: 19.99, category: 'Sports' },
+    { name: 'Folding Exercise Bike', price: 199.99, category: 'Fitness' },
+    { name: 'Sweetened Condensed Milk', price: 1.89, category: 'Food - Baking Goods' },
+    { name: 'Italian Sausage Links', price: 5.99, category: 'Food - Meat & Poultry' },
+    { name: 'Bicycle Repair Kit', price: 14.99, category: 'Outdoor' },
+    { name: 'Tailored Blazer', price: 99.99, category: 'Clothing - Outerwear' },
+    { name: 'Electric Air Pump', price: 29.99, category: 'Outdoor' },
+  ]
+
+  for (const data of datas) {
+    await db.query(sql, [data.name, data.price, data.category])
   }
-
-  await insert({ name: 'Laptop', price: 1000, category: 'electronics' })
-  await insert({ name: 'Phone', price: 500, category: 'electronics' })
-  await insert({ name: 'Tablet', price: 700, category: 'electronics' })
-  await insert({ name: 'Headphones', price: 50, category: 'electronics' })
-  await insert({ name: 'Keyboard', price: 200, category: 'electronics' })
-
-  // more products...
-  await insert({"name":"Sporty Leggings","price":39.99,"category":"Clothing - Activewear"})
-await insert({"name":"Athletic Jogging Jacket","price":49.99,"category":"Clothing - Outerwear"})
-await insert({"name":"Training Soccer Ball","price":19.99,"category":"Sports"})
-await insert({"name":"Folding Exercise Bike","price":199.99,"category":"Fitness"})
-await insert({"name":"Sweetened Condensed Milk","price":1.89,"category":"Food - Baking Goods"})
-await insert({"name":"Italian Sausage Links","price":5.99,"category":"Food - Meat & Poultry"})
-await insert({"name":"Bicycle Repair Kit","price":14.99,"category":"Outdoor"})
-await insert({"name":"Tailored Blazer","price":99.99,"category":"Clothing - Outerwear"})
-await insert({"name":"Electric Air Pump","price":29.99,"category":"Outdoor"})
-await insert({"name":"Tattoo Kit","price":99.99,"category":"Art Supplies"})
-await insert({"name":"Buttermilk Pancakes","price":3.99,"category":"Food - Breakfast"})
-await insert({"name":"Cucumber","price":0.99,"category":"Food - Produce"})
-await insert({"name":"Vegetable Broth","price":2.29,"category":"Food - Canned Goods"})
-await insert({"name":"Durable Hiking Boots","price":89.99,"category":"Footwear"})
-await insert({"name":"Sliced Avocado","price":2.79,"category":"Food - Produce"})
-await insert({"name":"Blender Bottle","price":12.99,"category":"Fitness"})
-await insert({"name":"Buffalo Cauliflower Bites","price":6.29,"category":"Food - Freezer"})
-await insert({"name":"Organic Lentil Soup","price":4.99,"category":"Food - Soups"})
-await insert({"name":"Honey Nut Cheerios","price":4.29,"category":"Food - Cereal"})
-await insert({"name":"Sushi Roll Kit","price":9.99,"category":"Food - Cooking Kits"})
-await insert({"name":"Comfy Slippers","price":29.99,"category":"Footwear"})
-await insert({"name":"Chipotle Lime Salsa","price":3.99,"category":"Food - Condiments"})
-await insert({"name":"Honey","price":5.49,"category":"Food - Condiments"})
-await insert({"name":"Computer Monitor Stand","price":29.99,"category":"Office"})
-await insert({"name":"Cinnamon Raisin Bread","price":3.79,"category":"Food - Bakery"})
-await insert({"name":"Lightweight Rain Jacket","price":79.99,"category":"Clothing - Outerwear"})
-await insert({"name":"Frozen Cauliflower Rice","price":2.99,"category":"Food - Frozen Foods"})
-await insert({"name":"Mango Chutney","price":3.99,"category":"Food - Condiments"})
-await insert({"name":"Mediterranean Olives","price":6.49,"category":"Food - Condiments"})
-await insert({"name":"Spicy BBQ Sauce","price":3.99,"category":"Food - Condiments"})
-await insert({"name":"Biodegradable Phone Case","price":23.99,"category":"Accessories"})
-await insert({"name":"Apple Cinnamon Granola","price":4.49,"category":"Food - Breakfast"})
-await insert({"name":"Yoga Blocks","price":29.99,"category":"Fitness"})
-await insert({"name":"Biodegradable Trash Bags","price":12.99,"category":"Home"})
-await insert({"name":"Handmade Leather Journal","price":39.99,"category":"Books"})
-await insert({"name":"Organic Coconut Flour","price":5.49,"category":"Food - Baking"})
-await insert({"name":"Fitness Jump Rope with LCD Counter","price":15.99,"category":"Fitness"})
-await insert({"name":"Bird Feeder","price":24.99,"category":"Outdoor"})
-await insert({"name":"Pet Travel Carrier","price":39.99,"category":"Pets"})
-await insert({"name":"Self-Watering Planter","price":24.99,"category":"Garden"})
-await insert({"name":"Fridge Magnet Set","price":15.99,"category":"Home"})
-await insert({"name":"Active Racerback Tank","price":24.99,"category":"Clothing - Tops"})
-await insert({"name":"Karaoke Microphone","price":39.99,"category":"Music"})
-await insert({"name":"Smartphone Gimbal Stabilizer","price":89.99,"category":"Photography"})
-await insert({"name":"Cooking Utensil Set","price":24.99,"category":"Kitchen"})
-await insert({"name":"Crew Neck Sweater","price":39.99,"category":"Clothing - Sweaters"})
-await insert({"name":"Organic Apples","price":1.89,"category":"Food - Produce"})
-await insert({"name":"Roasted Garlic Mashed Potatoes","price":3.99,"category":"Food - Frozen Foods"})
-await insert({"name":"Cinnamon Apple Sauce","price":2.49,"category":"Food - Canned Goods"})
-await insert({"name":"Crispy Onion Rings","price":4.29,"category":"Food - Frozen Foods"})
-await insert({"name":"Jalapeño Cornbread","price":3.29,"category":"Food - Bakery"})
-await insert({"name":"Adjustable Laptop Desk","price":59.99,"category":"Office"})
-await insert({"name":"Cucumber Lime Sparkling Water","price":1.49,"category":"Food - Beverages"})
-await insert({"name":"Peas (frozen)","price":1.89,"category":"Food - Frozen Foods"})
-await insert({"name":"Cinnamon Roll Kit","price":6.89,"category":"Food - Baking"})
-await insert({"name":"Mini Food Processor","price":39.99,"category":"Kitchen"})
-await insert({"name":"Coconut Milk Yogurt","price":2.99,"category":"Food - Dairy Alternatives"})
-await insert({"name":"Herbed Chicken Breast","price":7.99,"category":"Food - Meat"})
-await insert({"name":"Chocolate Chip Cookie Mix","price":2.49,"category":"Food - Baking"})
-await insert({"name":"Ceramic Planter Set","price":39.99,"category":"Home"})
-await insert({"name":"Thai Basil Fried Rice","price":5.99,"category":"Food - Frozen"})
-await insert({"name":"Fettuccine Alfredo Dinner Kit","price":5.49,"category":"Food - Prepared Meals"})
-await insert({"name":"Mushrooms","price":2.99,"category":"Food - Produce"})
-await insert({"name":"Outdoor Picnic Blanket","price":34.99,"category":"Outdoor"})
-await insert({"name":"High-Waisted Skirt","price":34.99,"category":"Clothing - Bottoms"})
-await insert({"name":"Graphic Hoodie","price":49.99,"category":"Clothing - Outerwear"})
-await insert({"name":"Buffalo Chicken Dip","price":5.99,"category":"Food - Dips"})
-await insert({"name":"Chipotle Black Bean Burger","price":4.99,"category":"Food - Meats"})
-await insert({"name":"High-Speed Hand Blender","price":39.99,"category":"Kitchen"})
-await insert({"name":"Ergonomic Gaming Chair","price":199.99,"category":"Gaming"})
-await insert({"name":"Handcrafted Wooden Jewelry Box","price":39.99,"category":"Accessories"})
-await insert({"name":"Cacao Nibs","price":6.49,"category":"Food - Baking"})
-await insert({"name":"Portable USB-C Monitor","price":199.99,"category":"Electronics"})
-await insert({"name":"Compressible Packing Cubes","price":29.99,"category":"Travel"})
-await insert({"name":"Home Delivery Food Journal","price":14.99,"category":"Health"})
-await insert({"name":"Reusable Food Storage Bags","price":19.99,"category":"Kitchen"})
-await insert({"name":"Fruit and Nut Medley","price":5.99,"category":"Food - Snacks"})
-await insert({"name":"Dried Mango Slices","price":3.49,"category":"Food - Snacks"})
-await insert({"name":"Elegant Maxi Skirt","price":44.99,"category":"Clothing - Bottoms"})
-await insert({"name":"Coffee Making Kit","price":44.99,"category":"Kitchen"})
-await insert({"name":"Coconut Rice","price":2.29,"category":"Food - Frozen"})
-await insert({"name":"Coconut Chia Seed Pudding","price":2.99,"category":"Food - Snacks"})
-await insert({"name":"Herbal Tea Infuser","price":9.99,"category":"Kitchen"})
-await insert({"name":"Honey Roasted Almonds","price":4.99,"category":"Food - Snacks"})
-await insert({"name":"Pumpkin Puree","price":2.99,"category":"Food - Canned Goods"})
-await insert({"name":"Samoas Cookie Mix","price":5.59,"category":"Food - Baking"})
-await insert({"name":"Sporty Leggings","price":39.99,"category":"Clothing - Activewear"})
-await insert({"name":"Savory Oatmeal","price":2.49,"category":"Food - Breakfast"})
-await insert({"name":"Heart-Shaped Baking Molds","price":10.99,"category":"Kitchen"})
-await insert({"name":"Multi-Function Meat Tenderizer","price":19.99,"category":"Kitchen"})
-await insert({"name":"Almond Flour Pancake Mix","price":5.99,"category":"Food - Baking"})
-await insert({"name":"Maple Oatmeal","price":2.99,"category":"Food - Breakfast"})
-await insert({"name":"Chocolate Dipped Fruit","price":5.99,"category":"Food - Snacks"})
-await insert({"name":"Teriyaki Tofu Stir-Fry","price":7.49,"category":"Food - Prepared Meals"})
-await insert({"name":"Coconut Milk","price":2.49,"category":"Food - Canned Goods"})
-await insert({"name":"Dried Mango Slices","price":3.49,"category":"Food - Snacks"})
-await insert({"name":"Suction Cup Hooks","price":9.99,"category":"Home"})
-await insert({"name":"Maple Breakfast Sausage","price":5.99,"category":"Food - Meat"})
-await insert({"name":"Teriyaki Stir-Fry Sauce","price":3.49,"category":"Food - Condiments"})
-await insert({"name":"Mesh Laundry Bags Set","price":12.99,"category":"Home"})
 }
