@@ -53,7 +53,7 @@ npm run db:seed
 npm run start
 ```
 
-7. Open (`http://localhost:3000`) in your browser or visit `http://localhost:PORT` in your browser
+7. Open [http://localhost:3000](http://localhost:3000) in your browser or visit `http://localhost:PORT` in your browser
 
 ## Tech Stack
 
