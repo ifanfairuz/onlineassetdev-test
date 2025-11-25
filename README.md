@@ -2,7 +2,7 @@
 
 # Demo
 
-https://onlineassetdev-test.vercel.app(https://onlineassetdev-test.vercel.app/)
+[Demo on Vercel](https://onlineassetdev-test.vercel.app)
 
 # Getting Started
 
@@ -10,6 +10,14 @@ https://onlineassetdev-test.vercel.app(https://onlineassetdev-test.vercel.app/)
 
 - Node.js >= v22
 - PostgreSQL
+
+## Cappabilities
+
+- Server-side rendering
+- Database migrations
+- Database seeders
+- Pagination
+- Search
 
 ## Installation
 
