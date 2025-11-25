@@ -1,4 +1,4 @@
-import { inject, onBeforeUnmount, onMounted, provide, ref, type Ref } from 'vue'
+import { inject, onBeforeUnmount, onMounted, provide, ref, watch, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 
@@ -18,7 +18,7 @@ interface FetchResult<Model> {
 }
 
 export interface DatatableContextOptions<Model> {
-  fetchDatas: (page: number, perPage: number) => Promise<FetchResult<Model>>
+  fetchDatas: (page: number, perPage: number, search?: string) => Promise<FetchResult<Model>>
 }
 
 export function provideDatatableContext<Model>(options: DatatableContextOptions<Model>) {
@@ -27,6 +27,7 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
   const route_path = route.path
 
   const loading = ref(true)
+  const search = ref(route.query.search ? String(route.query.search) : '')
   const datas = ref<Model[]>([]) as Ref<Model[]>
   const meta = ref<Meta>({
     current_page: parseInteger(route.query.page, 1),
@@ -40,7 +41,7 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
     try {
       loading.value = true
       const { current_page, per_page } = meta.value
-      const res = await options.fetchDatas(page ?? current_page, perPage ?? per_page)
+      const res = await options.fetchDatas(page ?? current_page, perPage ?? per_page, search.value)
       datas.value = res.data
       meta.value = res.meta
     } catch {
@@ -53,6 +54,13 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
   function go(page?: number, perPage?: number) {
     const { current_page, per_page } = meta.value
     router.replace({ query: { page: page ?? current_page, per_page: perPage ?? per_page } })
+  }
+
+  function searching(keyword?: string) {
+    const { per_page } = meta.value
+    router.replace({
+      query: { page: 1, per_page: per_page, search: keyword ?? search.value },
+    })
   }
 
   async function next() {
@@ -78,6 +86,7 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
 
   const context = {
     loading,
+    search,
     datas,
     meta,
     next,
@@ -95,6 +104,16 @@ export function provideDatatableContext<Model>(options: DatatableContextOptions<
   })
   onMounted(() => {
     getDatas()
+  })
+
+  let timer: NodeJS.Timeout | null = null
+  watch(search, () => {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      searching()
+    }, 300)
   })
 
   onBeforeUnmount(() => {

@@ -1,15 +1,21 @@
-import { User } from '#shared/model/user.ts'
+import { User } from '#shared/model/user'
 import { Connection, ConnectionOrPool } from '../connection.ts'
 
 export async function selectUsersWithPagination(
   db: ConnectionOrPool,
   page = 1,
   per_page = 10,
+  search?: string,
 ): Promise<User[]> {
-  const result = await db.query('SELECT * FROM users ORDER BY id ASC LIMIT $1 OFFSET $2;', [
-    per_page,
-    (page - 1) * per_page,
-  ])
+  let sql = 'SELECT * FROM users'
+  const params: (number | string)[] = [per_page, (page - 1) * per_page]
+  if (search?.length) {
+    sql += ` WHERE name ILIKE $3 OR email ILIKE $3`
+    params.push(`%${search}%`)
+  }
+  sql += ' ORDER BY id ASC LIMIT $1 OFFSET $2;'
+
+  const result = await db.query(sql, params)
 
   const users: User[] = []
   for (const row of result.rows) {
@@ -17,17 +23,23 @@ export async function selectUsersWithPagination(
       id: row.id,
       name: row.name,
       email: row.email,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
+      created_at: row.created_at.toISOString(),
+      updated_at: row.updated_at.toISOString(),
     })
   }
 
   return users
 }
 
-export async function countUsers(db: ConnectionOrPool): Promise<number> {
-  const result = await db.query('SELECT COUNT(*) AS count FROM users;')
+export async function countUsers(db: ConnectionOrPool, search?: string): Promise<number> {
+  let sql = 'SELECT COUNT(*) AS count FROM users'
+  const params: (number | string)[] = []
+  if (search?.length) {
+    sql += ` WHERE name ILIKE $1 OR email ILIKE $1`
+    params.push(`%${search}%`)
+  }
 
+  const result = await db.query(sql, params)
   return parseInt(result.rows[0].count)
 }
 

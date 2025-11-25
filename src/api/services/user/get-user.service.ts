@@ -5,9 +5,13 @@ import {
   selectUsersWithPagination,
 } from '../../database/repositories/user.repository.ts'
 
-export async function getUsers(page = 1, per_page = 10): Promise<UserListPaginated> {
-  const datas = await selectUsersWithPagination(pool, page, per_page)
-  const total = await countUsers(pool)
+export async function getUsers(
+  page = 1,
+  per_page = 10,
+  search?: string,
+): Promise<UserListPaginated> {
+  const datas = await selectUsersWithPagination(pool, page, per_page, search)
+  const total = await countUsers(pool, search)
 
   const total_pages = Math.ceil(total / per_page)
 

@@ -11,8 +11,21 @@ export class UserApi {
    * @param per_page
    * @returns
    */
-  public async getUsers(page: number, per_page: number): Promise<UserListPaginated> {
-    const { data } = await this._http.get(`/api/users?page=${page}&per_page=${per_page}`)
+  public async getUsers(
+    page: number,
+    per_page: number,
+    search?: string,
+  ): Promise<UserListPaginated> {
+    const params: Record<string, string> = {
+      page: page.toString(),
+      per_page: per_page.toString(),
+    }
+
+    if (search?.length) {
+      params['search'] = search
+    }
+
+    const { data } = await this._http.get(`/api/users`, { params })
     return {
       data: data.data.map((user: Record<string, unknown>) => ({
         ...user,

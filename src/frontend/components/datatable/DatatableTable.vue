@@ -9,7 +9,7 @@ defineProps<{
   getId: (data: Model) => string
 }>()
 
-const { datas, loading } = useDatatableContext<Model>()
+const { datas, loading, search } = useDatatableContext<Model>()
 </script>
 
 <template>
@@ -26,6 +26,13 @@ const { datas, loading } = useDatatableContext<Model>()
           <div class="flex items-center justify-center gap-2 py-8">
             <IconLoading />
             <span> Loading data... </span>
+          </div>
+        </TableCell>
+      </TableRow>
+      <TableRow v-else>
+        <TableCell colspan="100%">
+          <div class="flex items-center justify-center gap-2 py-4">
+            {{ search.length ? `No results found for "${search}"` : 'No Data' }}
           </div>
         </TableCell>
       </TableRow>

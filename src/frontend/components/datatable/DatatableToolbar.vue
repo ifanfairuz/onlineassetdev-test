@@ -1,13 +1,13 @@
 <script setup lang="ts" generic="Model">
 import Button from '../Button.vue'
-import { formatDate } from '@/lib/utils'
 import IconLoading from '../icons/IconLoading.vue'
 import { useDatatableContext } from './datatable-context'
+import { Input } from '../form'
 
 defineProps<{
   createUrl?: string
 }>()
-const { loading, meta } = useDatatableContext<Model>()
+const { loading, search } = useDatatableContext<Model>()
 </script>
 
 <template>
@@ -27,13 +27,16 @@ const { loading, meta } = useDatatableContext<Model>()
         </svg>
         <span>Create</span>
       </Button>
-    </div>
-    <div class="text-sm text-muted-foreground flex items-center gap-2 [&>svg]:size-4">
-      <template v-if="loading && !!meta.fetched_at">
+      <div
+        v-if="loading"
+        class="text-sm text-muted-foreground flex items-center gap-2 [&>svg]:size-4"
+      >
         <IconLoading />
         <span> Loading... </span>
-      </template>
-      <span v-else-if="meta.fetched_at"> Loaded at: {{ formatDate(meta.fetched_at) }} </span>
+      </div>
+    </div>
+    <div>
+      <Input v-model="search" type="search" placeholder="Search" class="w-full" />
     </div>
   </div>
 </template>

@@ -5,9 +5,13 @@ import {
   selectProductsWithPagination,
 } from '../../database/repositories/product.repository.ts'
 
-export async function getProducts(page = 1, per_page = 10): Promise<ProductListPaginated> {
-  const products = await selectProductsWithPagination(pool, page, per_page)
-  const total = await countProducts(pool)
+export async function getProducts(
+  page = 1,
+  per_page = 10,
+  search?: string,
+): Promise<ProductListPaginated> {
+  const products = await selectProductsWithPagination(pool, page, per_page, search)
+  const total = await countProducts(pool, search)
 
   const total_pages = Math.ceil(total / per_page)
 

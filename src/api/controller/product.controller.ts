@@ -12,15 +12,11 @@ import { createProductPayloadSchema } from '#shared/validation/product.schema'
  * @returns
  */
 export const getProductsHandler: RequestHandler = async (req, res) => {
-  const { page, per_page } = paginationPayloadSchema.parse(req.query)
-  const response = await getProducts(page, per_page)
+  const { page, per_page, search } = paginationPayloadSchema.parse(req.query)
+  const response = await getProducts(page, per_page, search)
 
   return res.json({
-    data: response.data.map((product) => ({
-      ...product,
-      created_at: product.created_at.toISOString(),
-      updated_at: product.updated_at.toISOString(),
-    })),
+    data: response.data,
     meta: {
       ...response.meta,
       fetched_at: response.meta.fetched_at?.toISOString(),

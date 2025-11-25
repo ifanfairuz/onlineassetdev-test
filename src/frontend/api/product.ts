@@ -11,8 +11,21 @@ export class ProductApi {
    * @param per_page
    * @returns
    */
-  public async getProducts(page = 1, per_page = 10): Promise<ProductListPaginated> {
-    const { data } = await this._http.get(`/api/products?page=${page}&per_page=${per_page}`)
+  public async getProducts(
+    page: number,
+    per_page: number,
+    search?: string,
+  ): Promise<ProductListPaginated> {
+    const params: Record<string, string> = {
+      page: page.toString(),
+      per_page: per_page.toString(),
+    }
+
+    if (search?.length) {
+      params['search'] = search
+    }
+
+    const { data } = await this._http.get(`/api/products`, { params })
     return {
       data: data.data.map((product: Record<string, unknown>) => ({
         ...product,
